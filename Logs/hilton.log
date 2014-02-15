@@ -1,0 +1,10 @@
+running
+  '/Library/Frameworks/R.framework/Versions/3.0/Resources/bin/R --slave --no-restore --no-save --no-restore --file=AppStoreAnalysis.R --args hilton'
+
+Loading required package: methods
+Loading required package: Rcpp
+Loading required package: RColorBrewer
+Loading required package: tm
+Warning message:
+In wordcloud(words, min.freq = 15) :
+  much could not be fit on page. It will not be plotted.
