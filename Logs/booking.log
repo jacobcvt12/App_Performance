@@ -1,8 +1,2 @@
-running
-  '/Library/Frameworks/R.framework/Versions/3.0/Resources/bin/R --slave --no-restore --no-save --no-restore --file=AppStoreAnalysis.R --args booking'
-
-Loading required package: methods
-Loading required package: Rcpp
-Loading required package: RColorBrewer
-Error in version.ratings[[Version.Num]] : subscript out of bounds
-Execution halted
+R Analysis of booking on Sat Feb 15 12:49:12 2014
+booking reviews file has 16763 rows

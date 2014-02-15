@@ -1,10 +1,10 @@
-running
-  '/Library/Frameworks/R.framework/Versions/3.0/Resources/bin/R --slave --no-restore --no-save --no-restore --file=AppStoreAnalysis.R --args hilton'
-
-Loading required package: methods
-Loading required package: Rcpp
-Loading required package: RColorBrewer
-Loading required package: tm
-Warning message:
-In wordcloud(words, min.freq = 15) :
-  much could not be fit on page. It will not be plotted.
+R Analysis of hilton on Sat Feb 15 12:46:32 2014
+hilton reviews file has 1647 rows
+hilton has 475 reviews.
+The reviews have 19427 words
+hilton only had 10 versions, so all versions are displayed
+null device 
+          1 
+There were no warnings
+   user  system elapsed 
+  4.740   0.047   4.810 

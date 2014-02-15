@@ -1,7 +1,9 @@
-running
-  '/Library/Frameworks/R.framework/Versions/3.0/Resources/bin/R --slave --no-restore --no-save --no-restore --file=AppStoreAnalysis.R --args marriott'
-
-Loading required package: methods
-Loading required package: Rcpp
-Loading required package: RColorBrewer
-Loading required package: tm
+R Analysis of marriott on Sat Feb 15 12:45:42 2014
+marriott reviews file has 2294 rows
+marriott has 670 reviews.
+The reviews have 26544 words
+null device 
+          1 
+There were no warnings
+   user  system elapsed 
+  6.438   0.054   6.500 

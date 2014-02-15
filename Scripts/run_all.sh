@@ -11,7 +11,7 @@ PARENTDIR="$(dirname "$dir")"
 for app in ${HOTELS[*]}
 do
     ./AppStoreScraper_domestic.py ${app} > ../Reviews/${app}.reviews
-    RScript --no-save --no-restore --verbose AppStoreAnalysis.R ${app} ${PARENTDIR} > ../Logs/${app}.log 2>&1
+    RScript AppStoreAnalysis.R ${app} ${PARENTDIR} > ../Logs/${app}.log 
 done
 
 # Store ending time in T_e

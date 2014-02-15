@@ -1,8 +1,2 @@
-running
-  '/Library/Frameworks/R.framework/Versions/3.0/Resources/bin/R --slave --no-restore --no-save --no-restore --file=AppStoreAnalysis.R --args starwood'
-
-Loading required package: methods
-Loading required package: Rcpp
-Loading required package: RColorBrewer
-Error in version.ratings[[Version.Num]] : subscript out of bounds
-Execution halted
+R Analysis of starwood on Sat Feb 15 12:46:48 2014
+starwood reviews file has 1344 rows
