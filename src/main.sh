@@ -22,10 +22,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 for app in ${HOTELS[*]}
 do
     # Call python script on hotel to download app reviews to hotel.reviews
-    ./AppStoreScraper_domestic.py ${app} > ../output/reviews/${app}.reviews
+    ./download_app_reviews.py ${app} > ../output/reviews/${app}.reviews
 
     # Call R program on dowloaded reviews. Write to hotel.log
-    RScript AppStoreAnalysis.R ${app} ${DIR} > ../output/logs/${app}.log 
+    RScript review_analysis.R ${app} ${DIR} > ../output/logs/${app}.log 
 
     # grep through reviews to remove reviews
     # upload ratings to reviews.db
