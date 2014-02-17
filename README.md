@@ -1,13 +1,9 @@
 .
-├── Logs
-│   ├── airbnb.log
-│   ├── booking.log
-│   ├── expedia.log
-│   ├── hilton.log
-│   ├── kayak.log
-│   ├── marriott.log
-│   └── starwood.log
-├── Output
+├── README.md
+├── data
+│   └── reviews.db
+├── doc
+├── figs
 │   ├── airbnb.output.pdf
 │   ├── booking.output.pdf
 │   ├── expedia.output.pdf
@@ -15,21 +11,28 @@
 │   ├── kayak.output.pdf
 │   ├── marriott.output.pdf
 │   └── starwood.output.pdf
-├── README
-├── Reviews
-│   ├── airbnb.reviews
-│   ├── booking.reviews
-│   ├── expedia.reviews
-│   ├── hilton.reviews
-│   ├── kayak.reviews
-│   ├── marriott.reviews
-│   ├── reviews.db
-│   └── starwood.reviews
-└── Scripts
-    ├── AppStoreAnalysis.R
-    ├── AppStoreScraper_domestic.py
-    ├── app_store_test
+├── output
+│   ├── logs
+│   │   ├── airbnb.log
+│   │   ├── booking.log
+│   │   ├── expedia.log
+│   │   ├── hilton.log
+│   │   ├── kayak.log
+│   │   ├── marriott.log
+│   │   └── starwood.log
+│   └── reviews
+│       ├── airbnb.reviews
+│       ├── booking.reviews
+│       ├── expedia.reviews
+│       ├── hilton.reviews
+│       ├── kayak.reviews
+│       ├── marriott.reviews
+│       └── starwood.reviews
+└── src
+    ├── app_store_test.xml
+    ├── download_app_reviews.py
+    ├── main.sh
     ├── py_test.py
-    └── run_all.sh
+    └── review_analysis.R
 
-4 directories, 28 files
+7 directories, 28 files

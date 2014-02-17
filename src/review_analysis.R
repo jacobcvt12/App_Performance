@@ -14,8 +14,8 @@ suppressPackageStartupMessages(library(scales))
 # handle arguments of company [1] and bash script path [2]
 args <- commandArgs(TRUE)
 company <- args[1]
-review.data <- paste(args[2], "/../Reviews/", company, ".reviews", sep="")
-company.plots <- paste(args[2], "/../Output/", company, ".output.pdf", sep="")
+review.data <- paste(args[2], "/../output/reviews/", company, ".reviews", sep="")
+company.plots <- paste(args[2], "/../figs/", company, ".output.pdf", sep="")
 
 # write header to log
 cat(sprintf("R Analysis of %s on %s\n", company, date()))

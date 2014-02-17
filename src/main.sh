@@ -2,11 +2,11 @@
 T=$(date +%s)
 
 # contingency for database
-if [ -a ../Reviews/reviews.db ]
+if [ -a ../data/reviews.db ]
 then
-    sqlite3 ../Reviews/reviews.db "CREATE TABLE IF NOT EXISTS Ratings 
+    sqlite3 ../data/reviews.db "CREATE TABLE IF NOT EXISTS Ratings 
         (company TEXT, version TEXT, rating INTEGER);"
-    sqlite3 ../Reviews/reviews.db "DELETE FROM Ratings;"
+    sqlite3 ../data/reviews.db "DELETE FROM Ratings;"
 else
     echo "Must create sqlite database reviews.db"
     exit
@@ -17,21 +17,20 @@ HOTELS=(marriott hilton starwood booking expedia kayak airbnb)
 
 # Store current directory in DIR variable to pass to R
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PARENTDIR="$(dirname "$dir")"
 
 # loop through all hotels
 for app in ${HOTELS[*]}
 do
     # Call python script on hotel to download app reviews to hotel.reviews
-    ./AppStoreScraper_domestic.py ${app} > ../Reviews/${app}.reviews
+    ./AppStoreScraper_domestic.py ${app} > ../output/reviews/${app}.reviews
 
     # Call R program on dowloaded reviews. Write to hotel.log
-    RScript AppStoreAnalysis.R ${app} ${PARENTDIR} > ../Logs/${app}.log 
+    RScript AppStoreAnalysis.R ${app} ${DIR} > ../output/logs/${app}.log 
 
     # grep through reviews to remove reviews
     # upload ratings to reviews.db
-    grep -i "^version" ../Reviews/${app}.reviews | cat | while read ignore version rating; do
-        sqlite3 ../Reviews/reviews.db "INSERT INTO Ratings VALUES ('$app', '$version', $rating);"
+    grep -i "^version" ../output/reviews/${app}.reviews | cat | while read ignore version rating; do
+        sqlite3 ../data/reviews.db "INSERT INTO Ratings VALUES ('$app', '$version', $rating);"
     done
 
 done
