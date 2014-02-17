@@ -29,8 +29,7 @@ cat(sprintf("%s reviews file has %d rows\n", company, length(txt)))
 # empty vector to store ratings in
 ratings <- c()
 
-# initialize empty vectors
-version.ratings <- list(c(0, 0), c(0, 0), c(0, 0))
+# initialize empty words string to store text of reviews
 words <- ""
 
 # guess how many reviews there are and prepopulate data frame for speed
@@ -50,11 +49,7 @@ for (i in 1:length(txt))
 {
   if (substr(txt[i], 1, 7) == "Version")
   {
-    Version.Num <- as.numeric(substr(txt[i], 9, 9))
     rating <- as.numeric(substr(txt[i], nchar(txt[i]), nchar(txt[i])))
-    version.ratings[[Version.Num]][1] <- version.ratings[[Version.Num]][1] + 
-      rating
-    version.ratings[[Version.Num]][2] <- version.ratings[[Version.Num]][2] + 1 
     ratings <- c(ratings, rating)
     
     # Get ratings for version.release.modifications
@@ -74,7 +69,7 @@ for (i in 1:length(txt))
 # subset data frame to get rid of empty rows (since it was prepopulated)
 ver.rel.mod.ratings <- ver.rel.mod.ratings[ver.rel.mod.ratings$Rating != 0, ]
 
-# count words with regular expression (regex counts spaces and ands 1)
+# count words with regular expression (regex counts spaces and adds 1)
 word.count <- sapply(gregexpr("\\W+", words), length) + 1
 
 cat(sprintf("%s has %d reviews.\nThe reviews have %d words\n", 
@@ -148,7 +143,7 @@ print(p)
 print(bp)
 print(sbp)
 print(sbp.pct)
-wordcloud(words, min.freq=15)
+suppressWarnings(wordcloud(words, min.freq=15))
 dev.off()
 
 # if there were no warnings right success message to long
