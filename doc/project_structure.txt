@@ -1,0 +1,37 @@
+App_Performance/
+├── README.md
+├── bin
+│   ├── download_app_reviews.py
+│   └── review_analysis.R
+├── data
+│   └── reviews.db
+├── doc
+│   └── project_structure.md
+├── figs
+│   ├── airbnb.output.pdf
+│   ├── booking.output.pdf
+│   ├── expedia.output.pdf
+│   ├── hilton.output.pdf
+│   ├── kayak.output.pdf
+│   ├── marriott.output.pdf
+│   └── starwood.output.pdf
+├── main.sh
+└── output
+    ├── logs
+    │   ├── airbnb.log
+    │   ├── booking.log
+    │   ├── expedia.log
+    │   ├── hilton.log
+    │   ├── kayak.log
+    │   ├── marriott.log
+    │   └── starwood.log
+    └── reviews
+        ├── airbnb.reviews
+        ├── booking.reviews
+        ├── expedia.reviews
+        ├── hilton.reviews
+        ├── kayak.reviews
+        ├── marriott.reviews
+        └── starwood.reviews
+
+7 directories, 27 files

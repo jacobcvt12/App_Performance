@@ -1,9 +1,9 @@
-R Analysis of starwood on Sat Feb 15 13:08:38 2014
-starwood reviews file has 1259 rows
-starwood has 377 reviews.
-The reviews have 13224 words
+R Analysis of starwood on Mon Feb 17 23:09:30 2014
+starwood reviews file has 1347 rows
+starwood has 403 reviews.
+The reviews have 13974 words
 null device 
           1 
 There were no warnings
    user  system elapsed 
-  3.409   0.035   3.450 
+  3.595   0.038   3.639 

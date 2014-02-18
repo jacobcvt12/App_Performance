@@ -5,7 +5,7 @@ T=$(date +%s)
 if [ -a data/reviews.db ]
 then
     sqlite3 data/reviews.db "CREATE TABLE IF NOT EXISTS Ratings 
-        (company TEXT, version TEXT, rating INTEGER);"
+        (company TEXT, version TEXT, rating INTEGER, review_date TEXT);"
     sqlite3 data/reviews.db "DELETE FROM Ratings;"
 else
     echo "Must create sqlite database reviews.db"
@@ -29,8 +29,8 @@ do
 
     # grep through reviews to remove reviews
     # upload ratings to reviews.db
-    grep -i "^version" output/reviews/${app}.reviews | cat | while read ignore version rating; do
-        sqlite3 data/reviews.db "INSERT INTO Ratings VALUES ('$app', '$version', $rating);"
+    grep -i "^version" output/reviews/${app}.reviews | cat | while read ignore version date rating; do
+        sqlite3 data/reviews.db "INSERT INTO Ratings VALUES ('$app', '$version', $rating, '$date');"
     done
 
 done

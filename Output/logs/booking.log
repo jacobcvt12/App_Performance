@@ -1,9 +1,9 @@
-R Analysis of booking on Sat Feb 15 13:14:07 2014
-booking reviews file has 16453 rows
-booking has 5285 reviews.
-The reviews have 62687 words
+R Analysis of booking on Mon Feb 17 23:11:57 2014
+booking reviews file has 16788 rows
+booking has 5393 reviews.
+The reviews have 63830 words
 null device 
           1 
 There were no warnings
    user  system elapsed 
- 45.851   0.309  46.192 
+ 47.907   0.311  48.268 
