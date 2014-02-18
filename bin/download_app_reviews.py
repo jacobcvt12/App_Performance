@@ -102,7 +102,7 @@ def _getReviewsForPage(appId, pageNo):
         dt = re.search("[A-Za-z]{3} [0-9]{1,2}, [^\n^\ ]+", version_node.tail).group() 
 
         review["date"] = \
-                datetime.strptime(dt, "%b %d, %Y").strftime("%Y-%d-%m")
+                datetime.strptime(dt, "%b %d, %Y").strftime("%Y-%m-%d")
 
         rank_node = xml_review.find("{0}HBoxView/{0}HBoxView/{0}HBoxView".format(xmlns))
         try:
