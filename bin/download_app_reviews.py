@@ -6,21 +6,7 @@ import sys
 import re
 from datetime import datetime
 
-# dictionary of hotels and the corresponding app ID
-hotelIDs = {
-        'marriott' : '455004730',
-        'hilton' : '337937175',
-        'starwood' : '312306003',
-        'booking' : '367003839',
-        'expedia' : '427916203',
-        'kayak' : '305204535',
-        'airbnb' : '401626263'
-        }
-
-def getReviews(appId):
-    ''' returns list of reviews for given application Id
-        return list format: [{"topic": string, "review": string, "rank": int}]
-    '''
+def getReviews():
     # initialize empty reviews list which will become a list of dictionaries
     # each dictionary contains info of one review
     reviews=[]
@@ -39,7 +25,7 @@ def getReviews(appId):
         # iPhone. no fault of the scraper. In these instances,
         # skip this page and try the next
         try:
-            ret = _getReviewsForPage(appId, i)
+            ret = _getReviewsForPage(i)
             if len(ret)==0:
                 # there are no more reivews, break the loop
                 break
@@ -51,7 +37,7 @@ def getReviews(appId):
         i += 1
     return reviews
 
-def _getReviewsForPage(appId, pageNo):
+def _getReviewsForPage(pageNo):
     # create userAgent to spoof user agent and pretend to be iTunes
     userAgent = 'iTunes/9.2 (Macintosh; U; Mac OS X 10.6)'
     
@@ -123,11 +109,11 @@ def _getReviewsForPage(appId, pageNo):
    
 
 if __name__ == '__main__':
-    # Bash script passes name of company as the first (and only) argument
-    hotel = sys.argv[1]
+    # Bash script passes app ID number as the first (and only) argument
+    appId = sys.argv[1]
 
     # get reviews for specified hotel
-    reviews = getReviews(hotelIDs[hotel])
+    reviews = getReviews()
    
     # write reviews
     # line 1: Version number (i.e. 1.2.4) Rating (i.e. 4)

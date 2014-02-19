@@ -1,3 +1,4 @@
+#!/bin/bash
 # Store startng time in T
 T=$(date +%s)
 
@@ -12,20 +13,29 @@ else
     exit
 fi
 
-# Create array of hotels and OTAs
-HOTELS=(marriott hilton starwood booking expedia kayak airbnb)
+# Create associative array of hotels and OTAs
+# to add or remove apps, simply edit this array
+# HOTELS=(marriott hilton starwood booking expedia kayak airbnb)
+declare -A hotelIDs=(
+[marriott]=455004730
+[hilton]=337937175
+[starwood]=312306003
+[booking]=367003839
+[expedia]=427916203
+[kayak]=305204535
+[airbnb]=401626263)
 
 # Store current directory in DIR variable to pass to R
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # loop through all hotels
-for app in ${HOTELS[*]}
+for app in ${!hotelIDs[*]}
 do
     # Call python script on hotel to download app reviews to hotel.reviews
-    ./bin/download_app_reviews.py ${app} > output/reviews/${app}.reviews
+    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews
 
     # Call R program on dowloaded reviews. Write to hotel.log
-    RScript bin/review_analysis.R ${app} ${DIR} > output/logs/${app}.log 
+    Rscript bin/review_analysis.R ${app} ${DIR} > output/logs/${app}.log 
 
     # grep through reviews to remove reviews
     # upload ratings to reviews.db
