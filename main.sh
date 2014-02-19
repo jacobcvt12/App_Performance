@@ -36,9 +36,7 @@ do
 done
 
 # run queries and update tables in database
-sqlite3 data/reviews.db < bin/add_week_ending.sql
-sqlite3 data/reviews.db < bin/last_week_ratings.sql
-sqlite3 data/reviews.db < bin/ratings_by_week_end.sql
+sqlite3 data/reviews.db < bin/update_tables.sql
 
 # will need to run R with updated database
 
