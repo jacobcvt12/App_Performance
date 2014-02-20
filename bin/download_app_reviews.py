@@ -6,38 +6,7 @@ import sys
 import re
 from datetime import datetime
 
-def getReviews():
-    # initialize empty reviews list which will become a list of dictionaries
-    # each dictionary contains info of one review
-    reviews=[]
-    
-    # i is a counter for page numbers - the App Store only allows viewing
-    # pages of 10 reviews at a time
-    i=0
-
-    # loop until _getReviewsForPage returns nothing
-    # which indicates the end of reviews
-    
-    while True: 
-        # iTunes will occasionally not load for certain page
-        # (this happened for one specific page for airbnb
-        # and the page would not load in iTunes or on an
-        # iPhone. no fault of the scraper. In these instances,
-        # skip this page and try the next
-        try:
-            ret = _getReviewsForPage(i)
-            if len(ret)==0:
-                # there are no more reivews, break the loop
-                break
-            reviews += ret
-            
-        except:
-            pass
-        
-        i += 1
-    return reviews
-
-def _getReviewsForPage(pageNo):
+def download_reviews(pageNo):
     # create userAgent to spoof user agent and pretend to be iTunes
     userAgent = 'iTunes/9.2 (Macintosh; U; Mac OS X 10.6)'
     
@@ -112,8 +81,36 @@ if __name__ == '__main__':
     # Bash script passes app ID number as the first (and only) argument
     appId = sys.argv[1]
 
-    # get reviews for specified hotel
-    reviews = getReviews()
+
+    # initialize empty reviews list which will become a list of dictionaries
+    # each dictionary contains info of one review
+    all_reviews=[]
+    
+    # i is a counter for page numbers - the App Store only allows viewing
+    # pages of 10 reviews at a time
+    i=0
+
+    # loop until download_reviews returns nothing
+    # which indicates the end of reviews
+    
+    while True: 
+        # iTunes will occasionally not load for certain page
+        # (this happened for one specific page for airbnb
+        # and the page would not load in iTunes or on an
+        # iPhone. no fault of the scraper. In these instances,
+        # skip this page and try the next
+        try:
+            page_of_reviews = download_reviews(i)
+            if len(page_of_reviews) == 0:
+                # there are no more reviews, break the loop
+                break
+            all_reviews += page_of_reviews
+            
+        except:
+			# loading of page i didn't work. increment i and try again
+            pass
+        
+        i += 1
    
     # write reviews
     # line 1: Version number (i.e. 1.2.4) Rating (i.e. 4)
@@ -121,7 +118,9 @@ if __name__ == '__main__':
     # note that the review body may be longer than one line
     # Bash script writes this to a .reviews file
 
-    for review in reviews:
+    for review in all_reviews:
+		# topic and review text can include non-ascii characters
+		# so we encode as utf-8 in order to write to a file
         print "%s %s %d" % (review["version"], review["date"], review["rank"])
         print " (%s) %s\n" % (review["topic"].encode('utf-8'), 
                 review["review"].encode('utf-8'))
