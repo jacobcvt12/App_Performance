@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 # Store startng time in T
 T=$(date +%s)
 
@@ -12,6 +12,28 @@ else
     echo "Must create sqlite database reviews.db"
     exit
 fi
+
+# create temp file so function will run
+file=$(mktemp)
+
+# timer function
+timer() {
+    pc=0;
+    while [ -e $file ]
+    do
+        if [ "$pc" == "0" ]; then
+            printf " User Time: 00:00:00\r"
+        else
+            printf " User Time: %02d:%02d:%02d\r" $((pc/3600)) $((pc/60%60)) $((pc % 60))
+        fi
+
+        sleep 1
+        ((pc++))
+    done
+}
+
+# start timer as background process
+timer &
 
 # Create associative array of hotels and OTAs
 # to add or remove apps, simply edit this array
@@ -55,5 +77,8 @@ T_e=$(date +%s)
 
 # Total time in TT
 TT=$((T_e - T))
+
+# get rid of timer by deleting temp file
+rm -f $file
 
 printf "Time to run %d:%d\n" $((TT/60%60)) $((TT%60))
