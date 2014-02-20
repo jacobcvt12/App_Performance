@@ -13,31 +13,7 @@ else
     exit
 fi
 
-# create temp file so function will run
-file=$(mktemp)
-
-# timer function
-timer() {
-    pc=0;
-    while [ -e $file ]
-    do
-        if [ "$pc" == "0" ]; then
-            printf " User Time: 00:00:00\r"
-        else
-            printf " User Time: %02d:%02d:%02d\r" $((pc/3600)) $((pc/60%60)) $((pc % 60))
-        fi
-
-        sleep 1
-        ((pc++))
-    done
-}
-
-# start timer as background process
-timer &
-
 # Create associative array of hotels and OTAs
-# to add or remove apps, simply edit this array
-# HOTELS=(marriott hilton starwood booking expedia kayak airbnb)
 declare -A hotelIDs=(
 [marriott]=455004730
 [hilton]=337937175
@@ -47,15 +23,28 @@ declare -A hotelIDs=(
 [kayak]=305204535
 [airbnb]=401626263)
 
+main_hotel=marriott
+
 # Store current directory in DIR variable to pass to R
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# loop through all hotels
+# loop through all hotels and run python download script
 for app in ${!hotelIDs[*]}
 do
     # Call python script on hotel to download app reviews to hotel.reviews
-    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews
+    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews &
 
+done
+
+for job in 'jobs -p'
+do
+    wait $job
+done
+
+# once downloads are done, perform individual app analysis with R 
+# and upload to databas
+for app in ${!hotelIDs[*]}
+do
     # Call R program on dowloaded reviews. Write to hotel.log
     Rscript bin/review_analysis.R ${app} ${DIR} > output/logs/${app}.log 
 
@@ -64,11 +53,13 @@ do
     grep -i "^version" output/reviews/${app}.reviews | cat | while read ignore version date rating; do
         sqlite3 data/reviews.db "INSERT INTO Ratings VALUES ('$app', '$version', $rating, '$date');"
     done
-
 done
 
 # run queries and update tables in database
 sqlite3 data/reviews.db < bin/update_tables.sql
+
+# pass main app and all other apps to R to run comparison
+Rscript bin/app_performance_by_time.R ${DIR} ${main_hotel} ${!hotelIDs[*]}
 
 # will need to run R with updated database
 
@@ -77,8 +68,5 @@ T_e=$(date +%s)
 
 # Total time in TT
 TT=$((T_e - T))
-
-# get rid of timer by deleting temp file
-rm -f $file
 
 printf "Time to run %d:%d\n" $((TT/60%60)) $((TT%60))
