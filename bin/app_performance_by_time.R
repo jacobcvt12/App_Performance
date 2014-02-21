@@ -16,7 +16,7 @@ other_companies <- args[3:length(args)]
 other_companies <- other_companies[other_companies != main_company]
 
 # path to database
-db <- "~/marriott/App_Performance/data/reviews.db"
+db <- paste(args[1]"/data/reviews.db")
 
 # connect to database and pull ratings table
 conn <- dbConnect("SQLite", db)
