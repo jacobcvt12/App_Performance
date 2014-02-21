@@ -33,10 +33,10 @@ for app in ${!hotelIDs[*]}
 do
     # Call python script on hotel to download app reviews to hotel.reviews
     ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews &
-
+    pidlist="$pidlist $!"
 done
 
-for job in 'jobs -p'
+for job in $pidlist
 do
     wait $job
 done
