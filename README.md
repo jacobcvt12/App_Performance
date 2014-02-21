@@ -37,4 +37,5 @@ Run
 To run this program, simply clone the repository to your computer,
 edit the associative array beginning on line 17 to include the apps
 that you wish to compare, and then from bash, run
+
     $ ./main.sh
