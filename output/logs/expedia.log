@@ -1,9 +1,9 @@
-R Analysis of expedia on Thu Feb 20 16:08:24 2014
-expedia reviews file has 8286 rows
-expedia has 2620 reviews.
-The reviews have 57188 words
+R Analysis of expedia on Fri Feb 21 16:30:07 2014
+expedia reviews file has 8299 rows
+expedia has 2623 reviews.
+The reviews have 57260 words
 null device 
           1 
 There were no warnings
    user  system elapsed 
- 15.911   0.036  15.934 
+ 16.851   0.032  16.872 

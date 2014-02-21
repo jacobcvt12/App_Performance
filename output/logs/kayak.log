@@ -1,9 +1,9 @@
-R Analysis of kayak on Thu Feb 20 15:56:50 2014
-kayak reviews file has 39460 rows
-kayak has 12865 reviews.
-The reviews have 201807 words
+R Analysis of kayak on Fri Feb 21 16:18:29 2014
+kayak reviews file has 39687 rows
+kayak has 12940 reviews.
+The reviews have 201351 words
 null device 
           1 
 There were no warnings
    user  system elapsed 
-182.207   0.925 183.003 
+184.520   0.753 185.126 

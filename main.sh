@@ -70,4 +70,4 @@ T_e=$(date +%s)
 # Total time in TT
 TT=$((T_e - T))
 
-printf "Time to run %d:%d\n" $((TT/60%60)) $((TT%60))
+printf "Time to run %02d:%02d\n" $((TT/60%60)) $((TT%60))
