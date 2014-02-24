@@ -3,7 +3,6 @@ suppressPackageStartupMessages(library(scales))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(plyr))
 
-# ******** UPDATE ************
 # handle arguments of parent directory [1] main app [2]
 # and all other apps [3] (which repeatse main app and
 # must be removed
@@ -16,7 +15,7 @@ other_companies <- args[3:length(args)]
 other_companies <- other_companies[other_companies != main_company]
 
 # path to database
-db <- paste(args[1], "/data/reviews.db")
+db <- paste(args[1], "/data/reviews.db", sep="")
 
 # connect to database and pull ratings table
 conn <- dbConnect("SQLite", db)

@@ -1,9 +1,10 @@
-R Analysis of marriott on Fri Feb 21 16:34:08 2014
-marriott reviews file has 2408 rows
-marriott has 703 reviews.
-The reviews have 27824 words
+[1] "Running review_analysis.R"
+R Analysis of marriott on Mon Feb 24 10:42:32 2014
+marriott reviews file has 2415 rows
+marriott has 704 reviews.
+The reviews have 27862 words
 null device 
           1 
 There were no warnings
    user  system elapsed 
-  5.959   0.016   5.970 
+  5.695   0.028   5.718 

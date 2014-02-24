@@ -8,7 +8,7 @@ args <- commandArgs(TRUE)
 main_company <- args[2]
 
 # path to database
-db <- paste(args[1], "/data/reviews.db")
+db <- paste(args[1], "/data/reviews.db", sep="")
 
 # connect to database and pull ratings table
 conn <- dbConnect("SQLite", db)

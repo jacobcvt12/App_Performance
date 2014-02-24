@@ -1,5 +1,6 @@
 # Get system time to print total run time
 st <- proc.time()
+print("Running review_analysis.R")
 
 # set options to print warnings as they appear
 options(warn=1)
