@@ -1,0 +1,19 @@
+originally, the idea was to prototype this text summarizing work in python and then rewrite in c/c++
+may possibly do rewrite in R instead (possibly a speed benefit, as well as packages available to reduce
+amount of manual work). would like to eventually eliminate python portion of scraper and rewrite in bash
+this would limit number of languages to two (R, bash)
+
+main r packages to use:
+    -openNLP
+    (http://cran.r-project.org/web/packages/openNLP/)
+    - this will be used for tokenization, POS tagging, and hopefully removal of stop words and other
+      unneeded elements (haven't check on capability of opennlp on this last part)
+    - have to run the following line in addition
+    install.packages("openNLPmodels.en", repos="http://datacube.wu.ac.at/", type="source")
+
+    -arules
+    (http://cran.r-project.org/web/packages/arules/index.html)
+    - this will be used for association mining
+
+    -tm
+    - possibly use this for any other needed functionality
