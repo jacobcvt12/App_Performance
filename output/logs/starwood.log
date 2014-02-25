@@ -1,10 +1,10 @@
 [1] "Running review_analysis.R"
-R Analysis of starwood on Mon Feb 24 10:43:04 2014
-starwood reviews file has 1356 rows
+R Analysis of starwood on Tue Feb 25 11:21:12 2014
+starwood reviews file has 950 rows
 starwood has 406 reviews.
-The reviews have 14024 words
+The reviews have 12582 words
 null device 
           1 
 There were no warnings
    user  system elapsed 
-  2.863   0.032   2.891 
+  2.732   0.013   2.743 

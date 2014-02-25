@@ -1,10 +1,10 @@
 [1] "Running review_analysis.R"
-R Analysis of kayak on Mon Feb 24 10:26:58 2014
-kayak reviews file has 39714 rows
-kayak has 12949 reviews.
-The reviews have 201519 words
+R Analysis of kayak on Tue Feb 25 11:06:28 2014
+kayak reviews file has 26775 rows
+kayak has 12955 reviews.
+The reviews have 170435 words
 null device 
           1 
 There were no warnings
    user  system elapsed 
-182.259   0.820 182.938 
+105.900   0.379 106.286 

@@ -1,10 +1,10 @@
 [1] "Running review_analysis.R"
-R Analysis of airbnb on Mon Feb 24 10:40:28 2014
-airbnb reviews file has 8475 rows
-airbnb has 2557 reviews.
-The reviews have 82884 words
+R Analysis of airbnb on Tue Feb 25 11:18:44 2014
+airbnb reviews file has 5922 rows
+airbnb has 2559 reviews.
+The reviews have 74789 words
 null device 
           1 
 There were no warnings
    user  system elapsed 
- 26.757   0.056  26.790 
+ 19.721   0.032  19.735 

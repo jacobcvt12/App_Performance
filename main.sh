@@ -41,6 +41,8 @@ do
     wait $job
 done
 
+echo "Downloads finished."
+
 # once downloads are done, perform individual app analysis with R 
 # and upload to databas
 for app in ${!hotelIDs[*]}

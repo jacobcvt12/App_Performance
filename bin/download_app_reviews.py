@@ -67,12 +67,6 @@ def download_reviews(pageNo):
         except KeyError:
             review["rank"] = None
 
-        topic_node = xml_review.find("{0}HBoxView/{0}TextView/{0}SetFontStyle/{0}b".format(xmlns))
-        if topic_node is None:
-            review["topic"] = None
-        else:
-            review["topic"] = topic_node.text
-
         reviews.append(review)
     return reviews
    
@@ -122,5 +116,4 @@ if __name__ == '__main__':
 		# topic and review text can include non-ascii characters
 		# so we encode as utf-8 in order to write to a file
         print "%s %s %d" % (review["version"], review["date"], review["rank"])
-        print " (%s) %s\n" % (review["topic"].encode('utf-8'), 
-                review["review"].encode('utf-8'))
+        print "%s" % review["review"].encode('utf-8')
