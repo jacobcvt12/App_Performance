@@ -108,7 +108,7 @@ if __name__ == '__main__':
    
     # write reviews
     # line 1: Version number (i.e. 1.2.4) Rating (i.e. 4)
-    # line 2: Topic (i.e. Great app) Body of review (i.e. This app works)
+    # line 2: Body of review (i.e. This app works)
     # note that the review body may be longer than one line
     # Bash script writes this to a .reviews file
 

@@ -13,6 +13,11 @@ else
     exit
 fi
 
+# delete previous output
+rm output/logs/*
+rm output/reviews/*
+rm figs/*
+
 # Create associative array of hotels and OTAs
 declare -A hotelIDs=(
 [marriott]=455004730
@@ -26,7 +31,7 @@ declare -A hotelIDs=(
 main_hotel=marriott
 
 # Store current directory in DIR variable to pass to R
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$PWD"
 
 # loop through all hotels and run python download script
 for app in ${!hotelIDs[*]}
@@ -73,3 +78,4 @@ T_e=$(date +%s)
 TT=$((T_e - T))
 
 printf "Time to run %02d:%02d\n" $((TT/60%60)) $((TT%60))
+

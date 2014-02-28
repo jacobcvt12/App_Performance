@@ -1,10 +1,10 @@
 [1] "Running review_analysis.R"
-R Analysis of expedia on Tue Feb 25 11:16:53 2014
-expedia reviews file has 5685 rows
-expedia has 2636 reviews.
-The reviews have 50802 words
+R Analysis of expedia on Thu Feb 27 09:25:15 2014
+expedia reviews file has 5706 rows
+expedia has 2638 reviews.
+The reviews have 51278 words
 null device 
           1 
 There were no warnings
    user  system elapsed 
- 11.193   0.028  11.213 
+ 11.277   0.008  11.276 

@@ -1,37 +1,58 @@
 App_Performance/
-├── README.md
 ├── bin
+│   ├── app_performance_by_time.R
 │   ├── download_app_reviews.py
-│   └── review_analysis.R
+│   ├── each_app.sh
+│   ├── review_analysis.R
+│   ├── update_tables.sql
+│   └── weekly_report.R
 ├── data
 │   └── reviews.db
 ├── doc
-│   └── project_structure.md
+│   ├── project_structure.txt
+│   └── Text Mining with R.pdf
 ├── figs
+│   ├── airbnb comparison_over_time.pdf
 │   ├── airbnb.output.pdf
+│   ├── booking comparison_over_time.pdf
 │   ├── booking.output.pdf
+│   ├── expedia comparison_over_time.pdf
 │   ├── expedia.output.pdf
+│   ├── hilton comparison_over_time.pdf
 │   ├── hilton.output.pdf
+│   ├── kayak comparison_over_time.pdf
 │   ├── kayak.output.pdf
 │   ├── marriott.output.pdf
+│   ├── marriott weekly report.pdf
+│   ├── starwood comparison_over_time.pdf
 │   └── starwood.output.pdf
 ├── main.sh
-└── output
-    ├── logs
-    │   ├── airbnb.log
-    │   ├── booking.log
-    │   ├── expedia.log
-    │   ├── hilton.log
-    │   ├── kayak.log
-    │   ├── marriott.log
-    │   └── starwood.log
-    └── reviews
-        ├── airbnb.reviews
-        ├── booking.reviews
-        ├── expedia.reviews
-        ├── hilton.reviews
+├── output
+│   ├── logs
+│   │   ├── airbnb.log
+│   │   ├── booking.log
+│   │   ├── expedia.log
+│   │   ├── hilton.log
+│   │   ├── kayak.log
+│   │   ├── marriott.log
+│   │   └── starwood.log
+│   └── reviews
+│       ├── airbnb.reviews
+│       ├── booking.reviews
+│       ├── expedia.reviews
+│       ├── hilton.reviews
+│       ├── kayak.reviews
+│       ├── marriott.reviews
+│       └── starwood.reviews
+├── README.md
+└── testing
+    └── tm_proto
         ├── kayak.reviews
+        ├── kayak.text
+        ├── main_proto.py
+        ├── main_proto_v2.R
         ├── marriott.reviews
-        └── starwood.reviews
+        ├── marriott.text
+        └── notes
 
-7 directories, 27 files
+9 directories, 46 files

@@ -27,11 +27,12 @@ weekly_ratings_df$week_end <- as.Date(weekly_ratings_df$week_end, "%Y-%m-%d")
 msg <- dbDisconnect(conn)
 
 # set theme to apply to all plots
-gg_theme = theme(panel.background = element_rect(fill='white', colour='black'))
+gg_theme <- theme(panel.background = element_rect(fill='white', colour='black'))
+
 for (app_company in other_companies)
 {
   company.plots <- paste(args[1], sprintf("/figs/%s comparison_over_time.pdf", app_company), sep="")
-  both_start_dt <- min(min(subset(weekly_ratings_df, company==app_company)$week_end),
+  both_start_dt <- max(min(subset(weekly_ratings_df, company==app_company)$week_end),
                        min(subset(weekly_ratings_df, company==main_company)$week_end))
   wr_df_subset = subset(weekly_ratings_df, company %in% c(main_company, app_company))
   date_df_subset <- subset(wr_df_subset, week_end >= both_start_dt)
