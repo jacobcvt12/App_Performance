@@ -5,12 +5,20 @@ print("Running review_analysis.R")
 # set options to print warnings as they appear
 options(warn=1)
 
+# install archived pacakges.
+# uncomment to install
+# download.file("http://cran.cnr.berkeley.edu/src/contrib/Archive/Rstem/Rstem_0.4-1.tar.gz", "Rstem_0.4-1.tar.gz") 
+# install.packages("Rstem_0.4-1.tar.gz", repos=NULL, type="source")
+# download.file("http://cran.r-project.org/src/contrib/Archive/sentiment/sentiment_0.2.tar.gz", "sentiment.tar.gz")
+# install.packages("sentiment.tar.gz", repos=NULL, type="source")
+
 # import libraries
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(tm))
 suppressPackageStartupMessages(library(wordcloud))
 suppressPackageStartupMessages(library(plyr))
 suppressPackageStartupMessages(library(scales))
+suppressPackageStartupMessages(library(sentiment))
 
 # handle arguments of company [1] and bash script path [2]
 args <- commandArgs(TRUE)
