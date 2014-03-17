@@ -39,7 +39,7 @@ cat(sprintf("%s reviews file has %d rows\n", company, length(txt)))
 ratings <- c()
 
 # initialize empty words string to store text of reviews
-words <- ""
+words <- c()
 
 # guess how many reviews there are and prepopulate data frame for speed
 pre_rows <- ceiling(length(txt) / 2)
@@ -71,7 +71,8 @@ for (i in 1:length(txt))
   }
   else
   {
-    words <- paste(words, txt[i], sep=" ")
+    words <- c(words, txt[i])
+    # words <- paste(words, txt[i], sep=" ")
   }
 }
 
@@ -84,11 +85,60 @@ word.count <- sapply(gregexpr("\\W+", words), length) + 1
 cat(sprintf("%s has %d reviews.\nThe reviews have %d words\n", 
               company, nrow(ver.rel.mod.ratings), word.count))
 
-words <- tolower(words)
+# words <- tolower(words)
+# 
+# # remove some common words from the text
+# words <- gsub(company, "", words)
+# words <- gsub("app", "", words)
 
-# remove some common words from the text
-words <- gsub(company, "", words)
-words <- gsub("app", "", words)
+# used this reference
+# https://sites.google.com/site/miningtwitter/questions/sentiment/sentiment
+
+# clean up documents
+# remove punctuation
+words = gsub("[[:punct:]]", "", words)
+
+# remove numbers
+words = gsub("[[:digit:]]", "", words)
+
+# remove unnecessary spaces
+words = gsub("[ \t]{2,}", "", words)
+words = gsub("^\\s+|\\s+$", "", words)
+
+# define "tolower error handling" function 
+try.error = function(x)
+{
+  # create missing value
+  y = NA
+  # tryCatch error
+  try_error = tryCatch(tolower(x), error=function(e) e)
+  # if not an error
+  if (!inherits(try_error, "error"))
+    y = tolower(x)
+  # result
+  return(y)
+}
+# lower case using try.error with sapply 
+words = sapply(words, try.error)
+
+# remove NAs in some_words
+words = words[!is.na(words)]
+names(words) = NULL
+
+# classify emotion
+class_emo = classify_emotion(words, algorithm="bayes", prior=1.0)
+# get emotion best fit
+emotion = class_emo[,7]
+# substitute NA's by "unknown"
+emotion[is.na(emotion)] = "unknown"
+
+# classify polarity
+class_pol = classify_polarity(words, algorithm="bayes")
+# get polarity best fit
+polarity = class_pol[,4]
+
+
+
 
 # plot ratings over time
 # reverse ratings since ratings are read new to old
