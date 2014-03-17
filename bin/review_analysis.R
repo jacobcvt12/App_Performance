@@ -137,7 +137,36 @@ class_pol = classify_polarity(words, algorithm="bayes")
 # get polarity best fit
 polarity = class_pol[,4]
 
+# data frame with results
+sent_df = data.frame(text=words, emotion=emotion,
+                     polarity=polarity, stringsAsFactors=FALSE)
 
+# sort data frame
+sent_df = within(sent_df,
+                 emotion <- factor(emotion, levels=names(sort(table(emotion), decreasing=TRUE))))
+
+
+# separating text by emotion
+emos = levels(factor(sent_df$emotion))
+nemo = length(emos)
+emo.docs = rep("", nemo)
+for (i in 1:nemo)
+{
+  tmp = words[emotion == emos[i]]
+  emo.docs[i] = paste(tmp, collapse=" ")
+}
+
+# remove stopwords
+emo.docs = removeWords(emo.docs, stopwords("english"))
+# create corpus
+corpus = Corpus(VectorSource(emo.docs))
+tdm = TermDocumentMatrix(corpus)
+tdm = as.matrix(tdm)
+colnames(tdm) = emos
+
+# comparison word cloud
+comparison.cloud(tdm, colors = brewer.pal(nemo, "Dark2"),
+                 scale = c(3,.5), random.order = FALSE, title.size = 1.5)
 
 
 # plot ratings over time
