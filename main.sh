@@ -23,10 +23,12 @@ declare -A hotelIDs=(
 [marriott]=455004730
 [hilton]=337937175
 [starwood]=312306003
+[ihg]=368217298
 [booking]=367003839
 [expedia]=427916203
 [kayak]=305204535
-[airbnb]=401626263)
+[airbnb]=401626263
+[tripadvisor]=284876795)
 
 main_hotel=marriott
 

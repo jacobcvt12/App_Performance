@@ -1,11 +1,11 @@
 [1] "Running review_analysis.R"
-R Analysis of hilton on Thu Feb 27 09:24:52 2014
-hilton reviews file has 1244 rows
-hilton has 500 reviews.
-The reviews have 19059 words
+R Analysis of hilton on Fri Mar  7 09:30:29 2014
+hilton reviews file has 1254 rows
+hilton has 501 reviews.
+The reviews have 19120 words
 hilton only had 10 versions, so all versions are displayed
 null device 
           1 
 There were no warnings
    user  system elapsed 
-  3.530   0.016   3.545 
+  3.361   0.004   3.361 
