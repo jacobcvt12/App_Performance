@@ -53,6 +53,7 @@ def download_reviews(pageNo):
             review["version"] = None
         else:
             review["version"] = re.search("Version [^\n^\ ]+", version_node.tail).group()
+            review["version"] = review["version"].replace('v', '')
         
         dt = re.search("[A-Za-z]{3} [0-9]{1,2}, [^\n^\ ]+", version_node.tail).group() 
 

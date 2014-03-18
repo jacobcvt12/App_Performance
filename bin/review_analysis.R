@@ -5,12 +5,20 @@ print("Running review_analysis.R")
 # set options to print warnings as they appear
 options(warn=1)
 
+# install archived pacakges.
+# uncomment to install
+# download.file("http://cran.cnr.berkeley.edu/src/contrib/Archive/Rstem/Rstem_0.4-1.tar.gz", "Rstem_0.4-1.tar.gz") 
+# install.packages("Rstem_0.4-1.tar.gz", repos=NULL, type="source")
+# download.file("http://cran.r-project.org/src/contrib/Archive/sentiment/sentiment_0.2.tar.gz", "sentiment.tar.gz")
+# install.packages("sentiment.tar.gz", repos=NULL, type="source")
+
 # import libraries
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(tm))
 suppressPackageStartupMessages(library(wordcloud))
 suppressPackageStartupMessages(library(plyr))
 suppressPackageStartupMessages(library(scales))
+suppressPackageStartupMessages(library(sentiment))
 
 # handle arguments of company [1] and bash script path [2]
 args <- commandArgs(TRUE)
@@ -31,7 +39,7 @@ cat(sprintf("%s reviews file has %d rows\n", company, length(txt)))
 ratings <- c()
 
 # initialize empty words string to store text of reviews
-words <- ""
+words <- c()
 
 # guess how many reviews there are and prepopulate data frame for speed
 pre_rows <- ceiling(length(txt) / 2)
@@ -63,7 +71,8 @@ for (i in 1:length(txt))
   }
   else
   {
-    words <- paste(words, txt[i], sep=" ")
+    words <- c(words, txt[i])
+    # words <- paste(words, txt[i], sep=" ")
   }
 }
 
@@ -76,11 +85,89 @@ word.count <- sapply(gregexpr("\\W+", words), length) + 1
 cat(sprintf("%s has %d reviews.\nThe reviews have %d words\n", 
               company, nrow(ver.rel.mod.ratings), word.count))
 
-words <- tolower(words)
+# words <- tolower(words)
+# 
+# # remove some common words from the text
+# words <- gsub(company, "", words)
+# words <- gsub("app", "", words)
 
-# remove some common words from the text
-words <- gsub(company, "", words)
-words <- gsub("app", "", words)
+# used this reference
+# https://sites.google.com/site/miningtwitter/questions/sentiment/sentiment
+
+# clean up documents
+# remove punctuation
+words = gsub("[[:punct:]]", "", words)
+
+# remove numbers
+words = gsub("[[:digit:]]", "", words)
+
+# remove unnecessary spaces
+words = gsub("[ \t]{2,}", "", words)
+words = gsub("^\\s+|\\s+$", "", words)
+
+# define "tolower error handling" function 
+try.error = function(x)
+{
+  # create missing value
+  y = NA
+  # tryCatch error
+  try_error = tryCatch(tolower(x), error=function(e) e)
+  # if not an error
+  if (!inherits(try_error, "error"))
+    y = tolower(x)
+  # result
+  return(y)
+}
+# lower case using try.error with sapply 
+words = sapply(words, try.error)
+
+# remove NAs in some_words
+words = words[!is.na(words)]
+names(words) = NULL
+
+# classify emotion
+# class_emo = classify_emotion(words, algorithm="bayes", prior=1.0)
+# get emotion best fit
+# emotion = class_emo[,7]
+# substitute NA's by "unknown"
+# emotion[is.na(emotion)] = "unknown"
+
+# classify polarity
+class_pol = classify_polarity(words, algorithm="bayes")
+# get polarity best fit
+polarity = class_pol[,4]
+
+# data frame with results
+sent_df = data.frame(text=words, polarity=polarity, stringsAsFactors=FALSE)
+
+# sort data frame
+sent_df = within(sent_df,
+                 polarity <- factor(polarity, levels=names(sort(table(polarity), decreasing=TRUE))))
+
+
+# separating text by emotion
+pols = levels(factor(sent_df$polarity))
+npols = length(pols)
+pol.docs = rep("", npols)
+for (i in 1:npols)
+{
+  tmp = words[polarity == pols[i]]
+  pol.docs[i] = paste(tmp, collapse=" ")
+}
+
+# remove stopwords
+pol.docs = removeWords(pol.docs, stopwords("english"))
+
+# create corpus
+corpus = Corpus(VectorSource(pol.docs))
+tdm = TermDocumentMatrix(corpus)
+tdm = as.matrix(tdm)
+colnames(tdm) = pols
+
+# comparison word cloud
+comparison.cloud(tdm, colors = brewer.pal(npols, "Dark2"),
+                 scale = c(3,.5), random.order = FALSE, title.size = 1.5)
+
 
 # plot ratings over time
 # reverse ratings since ratings are read new to old
