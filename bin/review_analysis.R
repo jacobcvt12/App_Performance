@@ -79,18 +79,6 @@ for (i in 1:length(txt))
 # subset data frame to get rid of empty rows (since it was prepopulated)
 ver.rel.mod.ratings <- ver.rel.mod.ratings[ver.rel.mod.ratings$Rating != 0, ]
 
-# count words with regular expression (regex counts spaces and adds 1)
-word.count <- sapply(gregexpr("\\W+", words), length) + 1
-
-cat(sprintf("%s has %d reviews.\nThe reviews have %d words\n", 
-              company, nrow(ver.rel.mod.ratings), word.count))
-
-# words <- tolower(words)
-# 
-# # remove some common words from the text
-# words <- gsub(company, "", words)
-# words <- gsub("app", "", words)
-
 # used this reference
 # https://sites.google.com/site/miningtwitter/questions/sentiment/sentiment
 
@@ -125,124 +113,41 @@ words = sapply(words, try.error)
 words = words[!is.na(words)]
 names(words) = NULL
 
-# classify emotion
-class_emo = classify_emotion(words, algorithm="bayes", prior=1.0)
-# get emotion best fit
-emotion = class_emo[,7]
-# substitute NA's by "unknown"
-emotion[is.na(emotion)] = "unknown"
-
 # classify polarity
 class_pol = classify_polarity(words, algorithm="bayes")
 # get polarity best fit
 polarity = class_pol[,4]
 
 # data frame with results
-sent_df = data.frame(text=words, emotion=emotion,
-                     polarity=polarity, stringsAsFactors=FALSE)
+sent_df = data.frame(text=words, polarity=polarity, stringsAsFactors=FALSE)
 
 # sort data frame
 sent_df = within(sent_df,
-                 emotion <- factor(emotion, levels=names(sort(table(emotion), decreasing=TRUE))))
+                 polarity <- factor(polarity, levels=names(sort(table(polarity), decreasing=TRUE))))
 
 
 # separating text by emotion
-emos = levels(factor(sent_df$emotion))
-nemo = length(emos)
-emo.docs = rep("", nemo)
-for (i in 1:nemo)
+pols = levels(factor(sent_df$polarity))
+npols = length(pols)
+pol.docs = rep("", npols)
+for (i in 1:npols)
 {
-  tmp = words[emotion == emos[i]]
-  emo.docs[i] = paste(tmp, collapse=" ")
+  tmp = words[polarity == pols[i]]
+  pol.docs[i] = paste(tmp, collapse=" ")
 }
 
 # remove stopwords
-emo.docs = removeWords(emo.docs, stopwords("english"))
+pol.docs = removeWords(pol.docs, stopwords("english"))
+
 # create corpus
-corpus = Corpus(VectorSource(emo.docs))
+corpus = Corpus(VectorSource(pol.docs))
 tdm = TermDocumentMatrix(corpus)
 tdm = as.matrix(tdm)
-colnames(tdm) = emos
+colnames(tdm) = pols
 
 # comparison word cloud
-comparison.cloud(tdm, colors = brewer.pal(nemo, "Dark2"),
+comparison.cloud(tdm, colors = brewer.pal(npols, "Dark2"),
                  scale = c(3,.5), random.order = FALSE, title.size = 1.5)
-
-
-# plot ratings over time
-# reverse ratings since ratings are read new to old
-ratings.sort <- rev(ratings)
-t <- 1:length(ratings)
-df <- data.frame(x=t, y=ratings.sort)
-p <- ggplot(df, aes(x=x, y=y)) + geom_point(colour="black", position="jitter") + 
-  geom_smooth(method="lm", colour="blue") + 
-  geom_hline(yintercept=mean(ratings), linetype="dashed") + 
-  ylab(sprintf("App Store Rating for %s", company)) + 
-  xlab("Time") + 
-  theme(axis.text.x=element_blank()) + 
-  ggtitle("App Store Reviews")
-
-# plot box plot version ratings
-# subset the data to only plot the top 12 
-# (or all of the Versions whichever is smaller)
-vsum <- ddply(ver.rel.mod.ratings, "Version",
-              function(vdf) sum(vdf$Count))
-
-top_n <- min(12, nrow(vsum))
-
-if (top_n < 12)
-{
-  cat(sprintf("%s only had %d versions, so all versions are displayed\n",
-                company, top_n))
-}
-
-# subset aggregated dataset, then join back to original data set
-# to plot only the top 12 versions (or all versions if <= 12)
-vsum.subset <- vsum[with(vsum, order(-V1)), ][1:top_n, ]
-ver.merge <- merge(x=ver.rel.mod.ratings, y=vsum.subset, by="Version")
-
-give.n <- function(x){
-  return(c(y = mean(x), label = length(x)))
-}
-
-bp <- ggplot(ver.merge, aes(Version, Rating)) + 
-  geom_boxplot(fill = "grey80", colour = "#3366FF") + 
-  stat_summary(fun.data = give.n, geom = "text") +
-  ggtitle(sprintf("Top %d of %s App Versions \n(By Count)", top_n, company))
-
-sbp <- ggplot(ver.merge, aes(Version, fill=as.factor(Rating))) + 
-  geom_bar() +
-  ylab("Ratings") +
-  ggtitle(sprintf("Stacked Bars of Version Reviews\n(Top %d By Count)", 
-                  top_n)) +
-  scale_fill_discrete(name="Rating")
-
-sbp.pct <- ggplot(ver.merge, aes(Version, fill=as.factor(Rating))) + 
-  geom_bar(position='fill') +
-  ylab("Ratings") +
-  ggtitle(sprintf("Stacked Bars of Version Reviews (Percentage)
-                  (Top %d By Count)", top_n)) +
-  scale_fill_discrete(name="Rating") +
-  scale_y_continuous(labels=percent)
-
-# write plots to pdf
-pdf(company.plots)
-print(p)
-print(bp)
-print(sbp)
-print(sbp.pct)
-suppressWarnings(wordcloud(words, min.freq=15))
-dev.off()
-
-# if there were no warnings right success message to long
-# else write error message
-if (is.null(warnings()) == TRUE)
-{
-  cat("There were no warnings\n")
-} else
-{
-  cat("There were warnings in the program\n")
-}
 
 # write total run time to log
 print(proc.time() - st)
