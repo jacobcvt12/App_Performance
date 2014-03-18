@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS tableau_tbl(
 company TEXT,
 version TEXT,
+date TEXT,
 rating INTEGER,
-reviews INTEGER,
-day TEXT);
+count INTEGER);
 
 DELETE FROM tableau_tbl;
 
 INSERT INTO tableau_tbl
-SELECT company, version, rating, count(rating), review_date
+SELECT company, version, review_date, rating, count(rating)
 FROM Ratings
-GROUP BY company, version, rating, review_date;
+GROUP BY company, review_date, version, rating;
