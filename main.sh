@@ -26,7 +26,8 @@ declare -A hotelIDs=(
 [booking]=367003839
 [expedia]=427916203
 [kayak]=305204535
-[airbnb]=401626263)
+[airbnb]=401626263
+[ihg]=368217298)
 
 main_hotel=marriott
 
@@ -64,12 +65,6 @@ done
 
 # run queries and update tables in database
 sqlite3 data/reviews.db < bin/update_tables.sql
-
-# pass main app and all other apps to R to run comparison
-Rscript bin/app_performance_by_time.R ${DIR} ${main_hotel} ${!hotelIDs[*]}
-
-# plot weekly report of main_hotel
-Rscript bin/weekly_report.R ${DIR} ${main_hotel}
 
 # Store ending time in T_e
 T_e=$(date +%s)
