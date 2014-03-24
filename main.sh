@@ -39,7 +39,7 @@ DIR="$PWD"
 for app in ${!hotelIDs[*]}
 do
     # Call python script on hotel to download app reviews to hotel.reviews
-    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews &
+    ./bin/download_app_reviews.py ${hotelIDs[$app]} &> output/reviews/${app}.reviews &
     pidlist="$pidlist $!"
 done
 
@@ -66,12 +66,6 @@ done
 
 # run queries and update tables in database
 sqlite3 data/reviews.db < bin/update_tables.sql
-
-# pass main app and all other apps to R to run comparison
-Rscript bin/app_performance_by_time.R ${DIR} ${main_hotel} ${!hotelIDs[*]}
-
-# plot weekly report of main_hotel
-Rscript bin/weekly_report.R ${DIR} ${main_hotel}
 
 # Store ending time in T_e
 T_e=$(date +%s)
