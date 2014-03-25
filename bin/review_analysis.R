@@ -1,6 +1,6 @@
 # Get system time to print total run time
 st <- proc.time()
-print("Running review_analysis.R")
+cat("Running review_analysis.R\n")
 
 # set options to print warnings as they appear
 options(warn=1)
@@ -79,13 +79,6 @@ polarity[neut_ids] <- "Neutral"
 
 # data frame with results
 sent_df <- data.frame(text=words, polarity=polarity, stringsAsFactors=FALSE)
-
-# sort data frame
-sent_df <- within(sent_df,
-                 polarity=factor(polarity, 
-                                    levels=names(sort(table(polarity), 
-                                                      decreasing=TRUE))))
-
 
 # separating text by emotion
 pols <- c("Positive", "Negative", "Neutral")

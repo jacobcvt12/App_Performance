@@ -39,7 +39,7 @@ DIR="$PWD"
 for app in ${!hotelIDs[*]}
 do
     # Call python script on hotel to download app reviews to hotel.reviews
-    ./bin/download_app_reviews.py ${hotelIDs[$app]} &> output/reviews/${app}.reviews &
+    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews &
     pidlist="$pidlist $!"
 done
 
@@ -55,7 +55,7 @@ echo "Downloads finished."
 for app in ${!hotelIDs[*]}
 do
     # Call R program on dowloaded reviews. Write to hotel.log
-    Rscript bin/review_analysis.R ${app} ${DIR} > output/logs/${app}.log 
+    Rscript bin/review_analysis.R ${app} ${DIR} &> output/logs/${app}.log 
 
     # grep through reviews to remove reviews
     # upload ratings to reviews.db
