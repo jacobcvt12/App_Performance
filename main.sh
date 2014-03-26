@@ -45,8 +45,7 @@ do
         echo "Running analysis on ${app}..." &&
         Rscript bin/review_analysis.R ${app} ${DIR} &> output/logs/${app}.log &&
         echo "Summarizing ${app} reviews..." &&
-        cat ./output/reviews/${app}.reviews | ./bin/summarize_reviews.py ${app} >> 
-        ./output/reviews/summarized.reviews &
+        cat ./output/reviews/${app}.reviews | ./bin/summarize_reviews.py ${app} >> ./output/reviews/summarized.reviews &
     pidlist="$pidlist $!"
 done
 
