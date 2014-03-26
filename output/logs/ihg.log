@@ -1,0 +1,8 @@
+Running review_analysis.R
+R Analysis of ihg on Tue Mar 25 16:24:34 2014
+ihg reviews file has 3963 rows
+null device 
+          1 
+There were no warnings
+   user  system elapsed 
+ 12.676   0.177  11.376 

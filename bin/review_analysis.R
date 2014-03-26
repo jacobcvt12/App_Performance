@@ -69,7 +69,7 @@ class_pol <- classify_polarity(words, algorithm="bayes")
 
 # adjust "tolerance" of positive, negative, neutral
 polarity <- class_pol[,3]
-pos_ids <- polarity > 2.3
+pos_ids <- polarity > 2.0
 neg_ids <- polarity < 0.7
 neut_ids <- !(pos_ids | neg_ids)
 
@@ -89,9 +89,7 @@ for (i in 1:npols)
 {
   tmp <- words[polarity == pols[i]]
   pol.docs[i] <- paste(tmp, collapse=" ")
-}
-
-# remove stopwords
+} # remove stopwords
 pol.docs = removeWords(pol.docs, stopwords("english"))
 
 # create corpus

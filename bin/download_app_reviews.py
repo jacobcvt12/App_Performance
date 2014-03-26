@@ -46,19 +46,25 @@ def download_reviews(pageNo):
         if review_node is None:
             review["review"] = None
         else:
-            review["review"] = review_node.text
+            text = review_node.text
+            try:
+                check_ascii = text.decode("ascii")   
+                review["review"] = review_node.text
+            except UnicodeDecodeError:
+                # foreign language character
+                pass
 
         version_node = xml_review.find("{0}HBoxView/{0}TextView/{0}SetFontStyle/{0}GotoURL".format(xmlns))
         if version_node is None:
             review["version"] = None
+            review["data"] = None
         else:
             review["version"] = re.search("Version [^\n^\ ]+", version_node.tail).group()
             review["version"] = review["version"].replace('v', '')
         
-        dt = re.search("[A-Za-z]{3} [0-9]{1,2}, [^\n^\ ]+", version_node.tail).group() 
-
-        review["date"] = \
-                datetime.strptime(dt, "%b %d, %Y").strftime("%Y-%m-%d")
+            dt = re.search("[A-Za-z]{3} [0-9]{1,2}, [^\n^\ ]+", version_node.tail).group() 
+            review["date"] = \
+                    datetime.strptime(dt, "%b %d, %Y").strftime("%Y-%m-%d")
 
         rank_node = xml_review.find("{0}HBoxView/{0}HBoxView/{0}HBoxView".format(xmlns))
         try:

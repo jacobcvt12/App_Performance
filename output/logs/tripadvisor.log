@@ -1,0 +1,8 @@
+Running review_analysis.R
+R Analysis of tripadvisor on Tue Mar 25 16:46:16 2014
+tripadvisor reviews file has 21230 rows
+null device 
+          1 
+There were no warnings
+   user  system elapsed 
+138.820   1.049 131.860 

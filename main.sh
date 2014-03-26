@@ -38,8 +38,15 @@ DIR="$PWD"
 # loop through all hotels and run python download script
 for app in ${!hotelIDs[*]}
 do
-    # Call python script on hotel to download app reviews to hotel.reviews
-    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews &
+    echo "Downloading ${app}..."
+    # Call python script on hotel to download app reviews to hotel.reviews and then
+    # run analysis on downloaded reviews. 
+    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews &&
+        echo "Running analysis on ${app}..." &&
+        Rscript bin/review_analysis.R ${app} ${DIR} &> output/logs/${app}.log &&
+        echo "Summarizing ${app} reviews..." &&
+        cat ./output/reviews/${app}.reviews | ./bin/summarize_reviews.py ${app} >> 
+        ./output/reviews/summarized.reviews &
     pidlist="$pidlist $!"
 done
 
@@ -48,22 +55,23 @@ do
     wait $job
 done
 
-echo "Downloads finished."
-
 # once downloads are done, perform individual app analysis with R 
 # and upload to databas
 for app in ${!hotelIDs[*]}
 do
-    # Call R program on dowloaded reviews. Write to hotel.log
-    Rscript bin/review_analysis.R ${app} ${DIR} &> output/logs/${app}.log 
-
     # grep through reviews to remove reviews
+    # remove first column (text containing string "Version")
+    # prepend company to text
+    # replace space with pipe (sqlite3 separator)
     # upload ratings to reviews.db
-    grep -i "^version" output/reviews/${app}.reviews | cat | while read ignore version date rating; do
-        sqlite3 data/reviews.db "INSERT INTO Ratings VALUES ('$app', '$version', $rating, '$date');"
-    done
+
+    echo "Uploading ${app}..."
+    grep "^Version.*[1-5]$" output/reviews/${app}.reviews | cut -d" " -f2- | 
+        awk -v r=$app '{print r " " $0}' | sed 's/ /|/g' | 
+        sqlite3 data/reviews.db '.import "/dev/stdin" Ratings'
 done
 
+echo "Running queries..."
 # run queries and update tables in database
 sqlite3 data/reviews.db < bin/update_tables.sql
 
@@ -74,4 +82,3 @@ T_e=$(date +%s)
 TT=$((T_e - T))
 
 printf "Time to run %02d:%02d\n" $((TT/60%60)) $((TT%60))
-
