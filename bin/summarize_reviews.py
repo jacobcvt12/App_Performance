@@ -3,9 +3,6 @@
 from sys import stdin
 from sys import argv
 
-header = ['company', 'version', 'date', 'easy', 'slow', 'error', 'broken', \
-        'crash', 'reviews']
-
 if __name__ == "__main__":
     company_name = argv[1]
 
@@ -57,8 +54,6 @@ if __name__ == "__main__":
 
         else:
             txt += line
-
-    print ','.join(header)
 
     for key in agg_info:
         print ','.join(key) + ',' + ','.join(str(num) for num in agg_info[key])

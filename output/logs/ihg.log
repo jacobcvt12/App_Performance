@@ -1,8 +1,8 @@
 Running review_analysis.R
-R Analysis of ihg on Wed Mar 26 12:54:10 2014
-ihg reviews file has 3966 rows
+R Analysis of ihg on Wed Mar 26 15:42:32 2014
+ihg reviews file has 3967 rows
 null device 
           1 
 There were no warnings
    user  system elapsed 
- 13.407   0.337  12.220 
+ 13.344   0.203  12.048 

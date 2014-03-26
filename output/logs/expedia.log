@@ -1,8 +1,8 @@
 Running review_analysis.R
-R Analysis of expedia on Wed Mar 26 12:54:23 2014
+R Analysis of expedia on Wed Mar 26 15:42:44 2014
 expedia reviews file has 3038 rows
 null device 
           1 
 There were no warnings
    user  system elapsed 
- 11.718   0.240  10.708 
+ 11.533   0.224  10.553 

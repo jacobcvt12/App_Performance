@@ -45,3 +45,10 @@ FROM Ratings
 WHERE JULIANDAY(DATE('now')) - JULIANDAY(review_date) < 7
 GROUP BY company, review_date
 ORDER BY company, DATE(review_date) DESC;
+
+DELETE FROM tableau_tbl;
+
+INSERT INTO tableau_tbl
+SELECT company, version, review_date, rating, count(rating)
+FROM Ratings
+GROUP BY company, version, DATE(review_date), rating;

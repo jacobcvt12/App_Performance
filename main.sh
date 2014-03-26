@@ -14,9 +14,9 @@ else
 fi
 
 # delete previous output
-rm output/logs/*
-rm output/reviews/*
-rm figs/*
+rm -f output/logs/*
+rm -f output/reviews/*
+rm -f figs/*
 
 # Create associative array of hotels and OTAs
 declare -A hotelIDs=(
@@ -30,10 +30,14 @@ declare -A hotelIDs=(
 [airbnb]=401626263
 [tripadvisor]=284876795)
 
-main_hotel=marriott
+app_num=${#hotelIDs[@]}
+export finished=0
 
 # Store current directory in DIR variable to pass to R
 DIR="$PWD"
+
+# write header to summarized.reviews
+echo "company,version,date,easy,slow,error,broken,crash,reviews" > ./output/reviews/summarized.reviews
 
 # loop through all hotels and run python download script
 for app in ${!hotelIDs[*]}
@@ -45,7 +49,10 @@ do
         echo "Running analysis on ${app}..." &&
         Rscript bin/review_analysis.R ${app} ${DIR} &> output/logs/${app}.log &&
         echo "Summarizing ${app} reviews..." &&
-        cat ./output/reviews/${app}.reviews | ./bin/summarize_reviews.py ${app} >> ./output/reviews/summarized.reviews &
+        cat ./output/reviews/${app}.reviews | ./bin/summarize_reviews.py ${app} >> ./output/reviews/summarized.reviews &&
+        (( finished += 1 )) &&
+        export finished &&
+        echo "Finished running ${app}" &
     pidlist="$pidlist $!"
 done
 
@@ -73,6 +80,21 @@ done
 echo "Running queries..."
 # run queries and update tables in database
 sqlite3 data/reviews.db < bin/update_tables.sql
+
+echo "Writing aggregated results for tableau."
+sqlite3 ./data/reviews.db < ./bin/output.sql | ./bin/tableau_output.py > ./output/tableau_tbl.txt
+
+# copy pertinent output to windows
+echo "Copying output to windows drive..."
+DATE=`date -I`
+WINDOW_PATH="/media/Ecom/Personal Folders/Jacob Carey/App_Performance_Output/${DATE}"
+sudo mount -a &&
+    sudo mkdir -p "${WINDOW_PATH}" &&
+    cp ./output/reviews/summarized.reviews "$WINDOW_PATH" &&
+    cp ./output/tableau_tbl.txt "$WINDOW_PATH" &&
+    cp ./figs/*.pdf "$WINDOW_PATH" &&
+    echo "Copied successfully..." ||
+    echo "Unsuccessful copy..."
 
 # Store ending time in T_e
 T_e=$(date +%s)
