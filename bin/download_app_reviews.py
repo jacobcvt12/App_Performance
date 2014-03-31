@@ -109,6 +109,8 @@ if __name__ == '__main__':
             
         except:
 			# loading of page i didn't work. increment i and try again
+            # print to stderr to log this
+            sys.stderr.write('Error loading page %d\n' % i)
             pass
         
         i += 1

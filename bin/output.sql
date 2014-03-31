@@ -1,2 +1,2 @@
 .headers on
-select * from tableau_tbl;
+select company, version, rating, review_date from tableau_tbl;
