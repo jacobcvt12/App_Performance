@@ -45,7 +45,7 @@ do
     echo "Downloading ${app}..."
     # Call python script on hotel to download app reviews to hotel.reviews and then
     # run analysis on downloaded reviews. 
-    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews 2> output/reviews/${app}_download.log &&
+    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews 2> output/logs/${app}_download.log &&
         echo "Running analysis on ${app}..." &&
         Rscript bin/review_analysis.R ${app} ${DIR} &> output/logs/${app}.log &&
         echo "Summarizing ${app} reviews..." &&
@@ -87,11 +87,12 @@ sqlite3 ./data/reviews.db < ./bin/output.sql | ./bin/tableau_output.py > ./outpu
 # copy pertinent output to windows
 echo "Copying output to windows drive..."
 DATE=`date -I`
-WINDOW_PATH="/media/Ecom/Personal Folders/Jacob Carey/App_Performance_Output/${DATE}"
+WINDOW_PATH="/media/Ecom/Personal Folders/Jacob Carey/App_Performance_Output"
 sudo mount -a &&
     sudo mkdir -p "${WINDOW_PATH}" &&
     cp ./output/reviews/summarized.reviews "$WINDOW_PATH" &&
     cp ./output/tableau_tbl.txt "$WINDOW_PATH" &&
+    cp ./output/logs/* &&
     cp ./figs/*.pdf "$WINDOW_PATH" &&
     echo "Copied successfully..." ||
     echo "Unsuccessful copy..."

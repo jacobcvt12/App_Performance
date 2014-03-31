@@ -43,7 +43,7 @@ if __name__ == "__main__":
             review_line = 1
             review = line.split(' ') 
 
-            version = review[1]
+            version = "'" + review[1] + "'"
             date = review[2]
             triplet = (company_name, version, date)
 
