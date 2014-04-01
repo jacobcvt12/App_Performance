@@ -90,10 +90,9 @@ echo "Copying output to windows drive..."
 DATE=`date -I`
 WINDOW_PATH="/media/Ecom/Personal Folders/Jacob Carey/App_Performance_Output"
 sudo mount -a &&
-    sudo mkdir -p "${WINDOW_PATH}" &&
     cp ./output/reviews/summarized.reviews "$WINDOW_PATH" &&
     cp ./output/tableau_tbl.txt "$WINDOW_PATH" &&
-    cp ./output/logs/* &&
+    cp ./output/logs/* "$WINDOW_PATH" &&
     cp ./figs/*.pdf "$WINDOW_PATH" &&
     echo "Copied successfully..." ||
     echo "Unsuccessful copy..."
