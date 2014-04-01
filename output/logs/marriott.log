@@ -1,8 +1,8 @@
 Running review_analysis.R
-R Analysis of marriott on Mon Mar 31 12:09:23 2014
+R Analysis of marriott on Tue Apr  1 13:39:45 2014
 marriott reviews file has 1347 rows
 null device 
           1 
 There were no warnings
    user  system elapsed 
-  7.057   0.128   6.446 
+  6.965   0.112   6.468 

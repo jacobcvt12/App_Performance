@@ -1,2 +1,4 @@
 .headers on
-select company, version, rating, review_date from tableau_tbl;
+select company, version, rating, date, count(*) as count
+from tableau_tbl
+group by company, version, rating, date;

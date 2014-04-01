@@ -45,7 +45,8 @@ do
     echo "Downloading ${app}..."
     # Call python script on hotel to download app reviews to hotel.reviews and then
     # run analysis on downloaded reviews. 
-    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews 2> output/logs/${app}_download.log &&
+    # remove parallelization of downloading to see if this fixes download erros
+    ./bin/download_app_reviews.py ${hotelIDs[$app]} > output/reviews/${app}.reviews 2> output/logs/${app}_download.log
         echo "Running analysis on ${app}..." &&
         Rscript bin/review_analysis.R ${app} ${DIR} &> output/logs/${app}.log &&
         echo "Summarizing ${app} reviews..." &&

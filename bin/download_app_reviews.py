@@ -16,7 +16,7 @@ def download_reviews(pageNo):
     # url for app appId reviews on page pageNo
     url = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/" + \
             "MZStore.woa/wa/viewContentsUserReviews?" + \
-            "id=%s&pageNumber=%d&sortOrdering=4" % (appId, pageNo) + \
+            "id=%s&pageNumber=%d" % (appId, pageNo) + \
             "&onlyLatestVersion=false&type=Purple+Software"
 
     # store xml namespace in string to reduce tag lengths

@@ -1,8 +1,8 @@
 Running review_analysis.R
-R Analysis of booking on Mon Mar 31 12:11:50 2014
-booking reviews file has 280 rows
+R Analysis of booking on Tue Apr  1 13:43:00 2014
+booking reviews file has 466 rows
 null device 
           1 
 There were no warnings
    user  system elapsed 
-  1.838   0.065   1.786 
+  2.158   0.054   2.013 
