@@ -1,2 +1,2 @@
 .headers on
-select * from tableau;
+select * from tableau_tbl;
