@@ -29,7 +29,12 @@ def download_reviews(pageNo):
 
     # open request object review_page_request, parse xml to review_page_root
     review_page = urllib2.urlopen(review_page_request, timeout=30)
-    review_page_root = ET.parse(review_page).getroot()
+    try:
+        review_page_root = ET.parse(review_page).getroot()
+    except ET.ParseError:
+        sys.stderr.write("Error reading page %d\n" % (i + 1))
+        # return 1 but as a character so that len function will work
+        return '1'
 
     # create empty list to store list of dictionary of reviews
     # (dictionary created and filled in for loop)
@@ -50,9 +55,9 @@ def download_reviews(pageNo):
             try:
                 check_ascii = text.decode("ascii")   
                 review["review"] = review_node.text
-            except UnicodeDecodeError:
+            except UnicodeEncodeError:
                 # foreign language character
-                pass
+                review["review"] = ""
 
         version_node = xml_review.find("{0}HBoxView/{0}TextView/{0}SetFontStyle/{0}GotoURL".format(xmlns))
         if version_node is None:
@@ -95,24 +100,14 @@ if __name__ == '__main__':
     # which indicates the end of reviews
     
     while True: 
-        # iTunes will occasionally not load for certain page
-        # (this happened for one specific page for airbnb
-        # and the page would not load in iTunes or on an
-        # iPhone. no fault of the scraper. In these instances,
-        # skip this page and try the next
-        try:
-            page_of_reviews = download_reviews(i)
-            if len(page_of_reviews) == 0:
-                # there are no more reviews, break the loop
-                break
-            all_reviews += page_of_reviews
-            
-        except:
-			# loading of page i didn't work. increment i and try again
-            # print to stderr to log this
-            sys.stderr.write('Error loading page %d\n' % i)
-            pass
+        page_of_reviews = download_reviews(i)
+        if len(page_of_reviews) == 0:
+            # there are no more reviews, break the loop
+            break
         
+        if page_of_reviews != '1':
+            all_reviews += page_of_reviews
+
         i += 1
    
     # write reviews

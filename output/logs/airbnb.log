@@ -1,8 +1,8 @@
 Running review_analysis.R
-R Analysis of airbnb on Tue Apr  1 13:39:24 2014
-airbnb reviews file has 3864 rows
+R Analysis of airbnb on Tue Apr  1 15:23:07 2014
+airbnb reviews file has 6029 rows
 null device 
           1 
 There were no warnings
    user  system elapsed 
- 17.394   0.249  16.040 
+ 31.347   0.367  29.080 

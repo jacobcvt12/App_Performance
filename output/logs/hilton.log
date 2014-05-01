@@ -1,8 +1,8 @@
 Running review_analysis.R
-R Analysis of hilton on Tue Apr  1 13:36:39 2014
-hilton reviews file has 970 rows
+R Analysis of hilton on Tue Apr  1 15:22:03 2014
+hilton reviews file has 1264 rows
 null device 
           1 
 There were no warnings
    user  system elapsed 
-  5.614   0.084   5.220 
+  7.012   0.129   6.529 
