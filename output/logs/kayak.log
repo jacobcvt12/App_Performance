@@ -1,8 +1,8 @@
 Running review_analysis.R
-R Analysis of kayak on Tue Apr  1 15:28:47 2014
-kayak reviews file has 26925 rows
+R Analysis of kayak on Thu May  1 09:45:19 2014
+kayak reviews file has 27023 rows
 null device 
           1 
 There were no warnings
    user  system elapsed 
-152.962   1.270 144.129 
+149.167   1.350 140.472 
