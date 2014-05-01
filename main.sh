@@ -84,6 +84,7 @@ sqlite3 data/reviews.db < bin/update_tables.sql
 
 echo "Writing aggregated results for tableau."
 sqlite3 ./data/reviews.db < ./bin/output.sql | ./bin/tableau_output.py > ./output/tableau_tbl.txt
+./bin/review_detail.py > ./output/review_detail.txt
 
 # copy pertinent output to windows
 echo "Copying output to windows drive..."
@@ -92,6 +93,7 @@ WINDOW_PATH="/media/Ecom/Personal Folders/Jacob Carey/App_Performance_Output"
 sudo mount -a &&
     cp ./output/reviews/summarized.reviews "$WINDOW_PATH" &&
     cp ./output/tableau_tbl.txt "$WINDOW_PATH" &&
+    cp ./output/review_detail.txt "$WINDOW_PATH" &&
     cp ./output/logs/* "$WINDOW_PATH" &&
     cp ./figs/*.pdf "$WINDOW_PATH" &&
     echo "Copied successfully..." ||

@@ -1,8 +1,8 @@
 Running review_analysis.R
-R Analysis of starwood on Thu May  1 09:38:04 2014
+R Analysis of starwood on Thu May  1 10:40:44 2014
 starwood reviews file has 1084 rows
 null device 
           1 
 There were no warnings
    user  system elapsed 
-  5.491   0.134   5.177 
+  5.851   0.115   5.464 

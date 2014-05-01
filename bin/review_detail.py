@@ -4,7 +4,7 @@ from glob import glob
 from sys import stdout
 
 if __name__ == "__main__":
-    review_files = [fn for fn in glob("../output/reviews/*.reviews")
+    review_files = [fn for fn in glob("output/reviews/*.reviews")
                     if not 'summarized' in fn]
     stdout.write("Company|Version|Date|Rating|Review\n")
 
@@ -29,3 +29,5 @@ if __name__ == "__main__":
 
                 else:
                     text += line
+
+            stdout.write("|\"" + text.replace("\n", " ") + "\"\n")
